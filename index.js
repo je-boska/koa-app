@@ -17,7 +17,7 @@ render(app, {
 app.use(router.routes())
 
 router.get('/', async ctx => {
-  ctx.body = 'Hi'
+  await ctx.render('index')
 })
 
 console.log('Server is running on port 3000')
