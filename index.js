@@ -18,12 +18,19 @@ render(app, {
 
 app.use(router.routes())
 
-router.get('/', async ctx => {
+router.get('/', index)
+router.get('/add', showAdd)
+
+async function index(ctx) {
   await ctx.render('index', {
     title: 'Things:',
     things,
   })
-})
+}
+
+async function showAdd(ctx) {
+  await ctx.render('add')
+}
 
 console.log('Server is running on port 3000')
 app.listen(3000)
