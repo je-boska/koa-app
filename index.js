@@ -2,6 +2,8 @@ const Koa = require('koa')
 const Router = require('koa-router')
 const path = require('path')
 const render = require('koa-ejs')
+const json = require('koa-json')
+const koaBody = require('koa-body')
 
 const app = new Koa()
 const router = new Router()
@@ -17,9 +19,11 @@ render(app, {
 })
 
 app.use(router.routes())
+app.use(json())
 
 router.get('/', index)
 router.get('/add', showAdd)
+router.post('/add', koaBody(), add)
 
 async function index(ctx) {
   await ctx.render('index', {
@@ -30,6 +34,11 @@ async function index(ctx) {
 
 async function showAdd(ctx) {
   await ctx.render('add')
+}
+
+async function add(ctx) {
+  things.push(ctx.request.body.thing)
+  ctx.redirect('/')
 }
 
 console.log('Server is running on port 3000')
